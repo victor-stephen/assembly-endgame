@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "Hanken Grotesk", Arial, Helvetica, sans-serif;
+  background-color: #282726;
+  color: #f9f4da;
+}
+div#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 60px 57px;
+}
+
+main {
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  border: 2px solid green;
+  padding: 20px;
+}
+
+header {
+  width: 352px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.game-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.game-title {
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+}
+
+.description {
+  width: 100%;
+  color: #8e8e8e;
+  font-size: 14px;
+  font-weigth: 500;
+}
+
+.game-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #10A95B;
+  padding: 5px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.game-status h2 {
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+.game-status p{
+}
+
+.languages{
+  display: flex;
+  justify-content: center;
+  gap: 1.5px;
+  width: min(100%, 350px);
+  flex-wrap: wrap;
+  padding: 10px;
+
+}
+
+.language{
+  padding: 4.5px;
+  border-radius: 3px;
+}
