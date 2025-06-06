@@ -1,19 +1,31 @@
 import { useState } from "react";
-import {nanoid} from "nanoid"
-import Header from "./components/Header";
-import LanguageChip from "./components/LanguageChip";
+import { nanoid } from "nanoid";
 import { languages } from "./languages";
+import LanguageChip from "./components/LanguageChip";
+import Header from "./components/Header";
+import WordChip from "./components/WordChip";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const allLanguage = languages.map((language) => (
-    <LanguageChip key={nanoid()} language={language} />
+  const [word, setWord] = useState("react");
+
+  const wordElementChips = word.split("").map((letter) => (
+    <WordChip
+      key={nanoid()}
+      letter={letter.toUpperCase()}
+    />
+  ));
+  const languageElementChips = languages.map((lang) => (
+    <LanguageChip
+      key={nanoid()}
+      language={lang}
+    />
   ));
 
   return (
     <main>
       <Header />
-      <section className="languages">{allLanguage}</section>
+      <section className="languages">{languageElementChips}</section>
+      <section className="word">{ wordElementChips}</section>
     </main>
   );
 }
