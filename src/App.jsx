@@ -61,8 +61,6 @@ function App() {
       return guessedLetters.includes(letter)
         ? guessedLetters
         : setGuessedLetters((prevGuess) => [...prevGuess, letter]);
-    
-    /* const guessSet = new Set(guessedLetters)  */
   }
 
   function startNewGame() {
