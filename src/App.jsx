@@ -8,36 +8,42 @@ import WordChip from "./components/WordChip";
 import Button from "./components/Button";
 
 function App() {
+  // State values
   const [word, setWord] = useState(() => generate({ maxLength: 6 }));
   const [guessedLetters, setGuessedLetters] = useState([]);
 
-  // Create the virtual keyboard
+  // Derived values
+  let wrongGuessCount = guessedLetters.filter(
+    (letter) => !word.includes(letter)
+  ).length;
+  const isWon = guessedLetters.includes(word);
+
+  // Static Values
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
+
+  // Create the virtual keyboard
   const keyboardElement = alphabets.split("").map((alphabet) => {
-    const capitalLetter = alphabet.toUpperCase();
-    const wordCap = word.toUpperCase().split("");
-    const isGuessed = guessedLetters.includes(capitalLetter);
-    const isCorrectGuess = isGuessed && wordCap.includes(capitalLetter);
+    const isGuessed = guessedLetters.includes(alphabet);
+    const isCorrectGuess = isGuessed && word.includes(alphabet);
     return (
       <Button
-        key={capitalLetter}
-        addGuessedLetters={() => addGuessedLetters(capitalLetter)}
-        alphabet={capitalLetter}
-        guessedLetters={guessedLetters}
-        word={wordCap}
+        key={alphabet}
+        addGuessedLetters={() => addGuessedLetters(alphabet, wrongGuessCount)}
+        alphabet={alphabet}
         isGuessed={isGuessed}
         isCorrectGuess={isCorrectGuess}
+        wrongGuessCount={wrongGuessCount}
+        isWon={isWon}
       />
     );
   });
 
   // Convert word individual letters into styled chips
   const letterElement = word.split("").map((letter) => {
-    const capLetter = letter.toUpperCase();
-    return guessedLetters.includes(capLetter) ? (
+    return guessedLetters.includes(letter) ? (
       <WordChip
         key={nanoid()}
-        letter={capLetter}
+        letter={letter}
       />
     ) : (
       <WordChip
@@ -48,28 +54,44 @@ function App() {
   });
 
   // Render each programming language as a styled chip
-  const languageElementChips = languages.map((lang) => (
-    <LanguageChip
-      key={nanoid()}
-      language={lang}
-    />
-  ));
+  const languageElementChips = languages.map((lang) => {
+    if (wrongGuessCount > 0) {
+      wrongGuessCount -= 1;
+      return (
+        <LanguageChip
+          key={nanoid()}
+          language={lang}
+          skullClass={"language-fade"}
+        />
+      );
+    }
+    return (
+      <LanguageChip
+        key={nanoid()}
+        language={lang}
+      />
+    );
+  });
 
-  // Update user's letter choices when a key is clicked
-  function addGuessedLetters(letter) {
-    if (guessedLetters.length < 8)
+  // Update user's guessed letters when a key is clicked
+  function addGuessedLetters(letter, wrongGuessCount) {
+    if (wrongGuessCount < 8)
       return guessedLetters.includes(letter)
         ? guessedLetters
         : setGuessedLetters((prevGuess) => [...prevGuess, letter]);
   }
 
   function startNewGame() {
-    setWord(generate());
+    setWord(generate({ maxLength: 6 }));
+    setGuessedLetters([]);
   }
 
   return (
     <main>
-      <Header />
+      <Header
+        isWon={isWon}
+        guessedLetters={guessedLetters}
+      />
       <section className="languages">{languageElementChips}</section>
       <section className="word">{letterElement}</section>
       <section className="keyboard">{keyboardElement}</section>
