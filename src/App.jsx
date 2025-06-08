@@ -19,6 +19,8 @@ function App() {
   const isWon = word
     .split("")
     .every((letter) => guessedLetters.includes(letter));
+  
+  
 
   // Static Values
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -82,6 +84,12 @@ function App() {
         : setGuessedLetters((prevGuess) => [...prevGuess, letter]);
   }
 
+  if (isWon) {
+    console.log(isWon);
+  } else {
+    console.log(wrongGuessCount);
+  }
+
   function startNewGame() {
     if (isWon || wrongGuessCount === 8) {
       setWord(generate({ maxLength: 6 }));
@@ -102,7 +110,7 @@ function App() {
       <button
         className="new-game"
         onClick={startNewGame}
-        disabled={!isWon || wrongGuessCount < 8}
+        disabled={!(isWon || wrongGuessCount === 8)}
       >
         New Game
       </button>
