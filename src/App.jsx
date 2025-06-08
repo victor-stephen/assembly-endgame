@@ -16,7 +16,9 @@ function App() {
   let wrongGuessCount = guessedLetters.filter(
     (letter) => !word.includes(letter)
   ).length;
-  const isWon = guessedLetters.includes(word);
+  const isWon = word
+    .split("")
+    .every((letter) => guessedLetters.includes(letter));
 
   // Static Values
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -28,7 +30,7 @@ function App() {
     return (
       <Button
         key={alphabet}
-        addGuessedLetters={() => addGuessedLetters(alphabet, wrongGuessCount)}
+        addGuessedLetters={() => addGuessedLetters(alphabet)}
         alphabet={alphabet}
         isGuessed={isGuessed}
         isCorrectGuess={isCorrectGuess}
@@ -39,7 +41,7 @@ function App() {
   });
 
   // Convert word individual letters into styled chips
-  const letterElement = word.split("").map((letter) => {
+  const wordElement = word.split("").map((letter) => {
     return guessedLetters.includes(letter) ? (
       <WordChip
         key={nanoid()}
@@ -54,9 +56,8 @@ function App() {
   });
 
   // Render each programming language as a styled chip
-  const languageElementChips = languages.map((lang) => {
-    if (wrongGuessCount > 0) {
-      wrongGuessCount -= 1;
+  const languageElementChips = languages.map((lang, index) => {
+    if (index < wrongGuessCount) {
       return (
         <LanguageChip
           key={nanoid()}
@@ -74,7 +75,7 @@ function App() {
   });
 
   // Update user's guessed letters when a key is clicked
-  function addGuessedLetters(letter, wrongGuessCount) {
+  function addGuessedLetters(letter) {
     if (wrongGuessCount < 8)
       return guessedLetters.includes(letter)
         ? guessedLetters
@@ -82,8 +83,11 @@ function App() {
   }
 
   function startNewGame() {
-    setWord(generate({ maxLength: 6 }));
-    setGuessedLetters([]);
+    if (isWon || wrongGuessCount === 8) {
+      setWord(generate({ maxLength: 6 }));
+      setGuessedLetters([]);
+    }
+    return;
   }
 
   return (
@@ -93,11 +97,12 @@ function App() {
         guessedLetters={guessedLetters}
       />
       <section className="languages">{languageElementChips}</section>
-      <section className="word">{letterElement}</section>
+      <section className="word">{wordElement}</section>
       <section className="keyboard">{keyboardElement}</section>
       <button
         className="new-game"
         onClick={startNewGame}
+        disabled={!isWon || wrongGuessCount < 8}
       >
         New Game
       </button>

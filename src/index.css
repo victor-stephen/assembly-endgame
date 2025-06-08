@@ -14,7 +14,7 @@ div#root {
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  padding: 20px 27px;
+  padding: 15px 27px;
 }
 
 main {
@@ -25,7 +25,6 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  /* border: 2px solid green; */
   padding: 20px;
 }
 
@@ -75,7 +74,6 @@ header {
 
 .languages {
   display: flex;
-  position:relative;
   justify-content: center;
   gap: 2px;
   width: min(100%, 350px);
@@ -84,6 +82,7 @@ header {
 }
 
 .language {
+  position:relative;
   padding: 4.5px;
   border-radius: 3px;
 }
@@ -91,8 +90,10 @@ header {
 .language-fade::after{
   content:"💀";
   position: absolute;
-  top:15px;
-  left: 35px;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align:center;
 }
 
 .word-chip {
@@ -115,14 +116,18 @@ section.word {
 
 section.keyboard {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 100%;
   flex-wrap: wrap;
   gap: 12px;
+  background:rgba(63, 50, 50, 0.74);
+  padding: 9px;
+  border-radius: 10px 10px 35px 35px;
 }
 
-Button.alphabet {
+button.alphabet {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,9 +141,13 @@ Button.alphabet {
   border: 1px solid #d7d7d7;
 }
 
-Button.alphabet:hover{
+button.alphabet:hover{
   opacity: 0.6;
 }
+button.alphabet:focus{
+  outline: 3px solid #4a68aa;
+}
+
 .new-game{
   padding: 5px;
   background:#0e66ad;

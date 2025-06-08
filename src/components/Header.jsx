@@ -1,8 +1,7 @@
-export default function Header({ isWon, guessedLetters }) {
-  console.log(guessedLetters)
-  const styles = {
-    // visibility: guessedLetters && "hidden",
-    }
+import {clsx} from "clsx"
+
+export default function Header() {
+  
   return (
     <header>
       <section className="game-intro">
@@ -12,7 +11,7 @@ export default function Header({ isWon, guessedLetters }) {
           from Assembly!
         </p>
       </section>
-      <section style={styles} className="game-status">
+      <section className={`game-status`}>
         <h2 className="game-status-text">You win</h2>
         <p>Well done!🎉</p>
       </section>
