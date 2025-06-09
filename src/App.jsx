@@ -19,8 +19,6 @@ function App() {
   const isWon = word
     .split("")
     .every((letter) => guessedLetters.includes(letter));
-  
-  
 
   // Static Values
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -59,19 +57,12 @@ function App() {
 
   // Render each programming language as a styled chip
   const languageElementChips = languages.map((lang, index) => {
-    if (index < wrongGuessCount) {
-      return (
-        <LanguageChip
-          key={nanoid()}
-          language={lang}
-          skullClass={"language-fade"}
-        />
-      );
-    }
+    const isLangLoss = index < wrongGuessCount;
     return (
       <LanguageChip
         key={nanoid()}
         language={lang}
+        skullClass={isLangLoss && "language-fade"}
       />
     );
   });
