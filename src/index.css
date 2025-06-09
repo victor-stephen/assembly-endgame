@@ -26,6 +26,7 @@ main {
   align-items: center;
   gap: 20px;
   padding: 20px;
+  margin-bottom: 49px;
 }
 
 header {
@@ -106,6 +107,9 @@ header {
   font-size: 20px;
   border-bottom: 1px solid #f9f4da;
 }
+.wrong-guess{
+  color: red;
+}
 
 section.word {
   display: flex;
@@ -125,6 +129,9 @@ section.keyboard {
   background:rgba(63, 50, 50, 0.74);
   padding: 9px;
   border-radius: 10px 10px 35px 35px;
+
+  border: 1px solid green;
+
 }
 
 button.alphabet {
@@ -155,4 +162,5 @@ button.alphabet:focus{
   border-radius: 5px;
   width: 150px;
   height: 35px;
+  margin-bottom: 30px;
 }
