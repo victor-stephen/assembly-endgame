@@ -1,7 +1,6 @@
 export default function Button(props) {
   const styles = {
     background: (props.isCorrectGuess && "green") || (props.isGuessed && "red"),
-    opacity: (props.isGameOver && "0.5"),
   };
 
 
