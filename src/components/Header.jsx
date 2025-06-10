@@ -11,7 +11,7 @@ export default function Header({ isGameLost, isGameWon, isGameOver }) {
           from Assembly!
         </p>
       </section>
-      <section className={`game-status`}>
+      <section className={`game-status ${gameStatusColor}`}>
         {isGameOver && (
           <h2 className="game-status-text">
             {(isGameWon && "You win") || (isGameLost && "Game Over")}

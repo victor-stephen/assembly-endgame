@@ -22,7 +22,7 @@ function App() {
   const isGameWon = word
     .split("")
     .every((letter) => guessedLetters.includes(letter));
-  const isGameLost = wrongGuessCount === languages.length - 1;
+  const isGameLost = wrongGuessCount >= languages.length - 1;
   const isGameOver = isGameWon || isGameLost;
 
   // Create the virtual keyboard
@@ -44,13 +44,18 @@ function App() {
   // Display characters in the word based on user's correct guess or game over
   const wordElement = word.split("").map((letter, index) => {
     const isCorrectGuess = guessedLetters.includes(letter);
-    return guessedLetters && (
-      <WordChip
-        key={nanoid()}
-        letter={(isCorrectGuess && letter.toUpperCase()) || (isGameOver && letter.toUpperCase())}
-        isCorrectGuess={isCorrectGuess}
-      />
-    ) 
+    return (
+      guessedLetters && (
+        <WordChip
+          key={nanoid()}
+          letter={
+            (isCorrectGuess && letter.toUpperCase()) ||
+            (isGameOver && letter.toUpperCase())
+          }
+          isCorrectGuess={isCorrectGuess}
+        />
+      )
+    );
   });
 
   // Create each language chip and style based on loss or not
@@ -67,11 +72,13 @@ function App() {
 
   // Update user's guessed letters when a key is clicked
   function addGuessedLetters(letter) {
-    if (wrongGuessCount < languages.length)
+    if (!isGameOver )
       return guessedLetters.includes(letter)
         ? guessedLetters
         : setGuessedLetters((prevGuess) => [...prevGuess, letter]);
   }
+
+  // Start New Game
   function startNewGame() {
     if (isGameOver) {
       setWord(generate({ maxLength: 6 }));
@@ -84,7 +91,8 @@ function App() {
     <main>
       <Header
         isGameWon={isGameWon}
-        guessedLetters={guessedLetters}
+        isGameLost={isGameLost}
+        isGameOver={isGameOver}
       />
       <section className="languages">{languageElementChips}</section>
       <section className="word">{wordElement}</section>
