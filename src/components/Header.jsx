@@ -1,7 +1,7 @@
-import {clsx} from "clsx"
+import { clsx } from "clsx";
 
-export default function Header() {
-  
+export default function Header({ isGameLost, isGameWon, isGameOver }) {
+  const gameStatusColor = (isGameLost && "lost") || (isGameWon && "won");
   return (
     <header>
       <section className="game-intro">
@@ -12,8 +12,19 @@ export default function Header() {
         </p>
       </section>
       <section className={`game-status`}>
-        <h2 className="game-status-text">You win</h2>
-        <p>Well done!🎉</p>
+        {isGameOver && (
+          <h2 className="game-status-text">
+            {(isGameWon && "You win") || (isGameLost && "Game Over")}
+          </h2>
+        )}
+        <p>
+          {(isGameWon && "Well done!🎉") ||
+            (isGameLost && "You lose! Better start learning Assembly 😭") || (
+              <q>
+                <em>Farewell HTML & CSS </em>
+              </q>
+            )}
+        </p>
       </section>
     </header>
   );
