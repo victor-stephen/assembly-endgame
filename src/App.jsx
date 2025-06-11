@@ -1,16 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useWindowSize } from "react-use";
 import { nanoid } from "nanoid";
 import { generate } from "random-words";
 import LanguageChip from "./components/LanguageChip";
 import Header from "./components/Header";
 import WordChip from "./components/WordChip";
 import Button from "./components/Button";
+import Confetti from "react-confetti";
 import { languages } from "./languages";
 
 function App() {
   // State values
-  const [word, setWord] = useState(() => generate({ maxLength: 6 }));
+  const [word, setWord] = useState(
+    "react" /* () => generate({ maxLength: 6 }) */
+  );
   const [guessedLetters, setGuessedLetters] = useState([]);
+
+  const { width, height } = useWindowSize();
 
   // Static Values
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -24,6 +30,7 @@ function App() {
     .every((letter) => guessedLetters.includes(letter));
   const isGameLost = wrongGuessCount >= languages.length - 1;
   const isGameOver = isGameWon || isGameLost;
+  const langLost = wrongGuessCount ? languages[wrongGuessCount - 1] : null;
 
   // Create the virtual keyboard
   const keyboardElement = alphabets.split("").map((alphabet) => {
@@ -37,6 +44,7 @@ function App() {
         isGuessed={isGuessed}
         isCorrectGuess={isCorrectGuess}
         isGameOver={isGameOver}
+        guessedLetters={guessedLetters}
       />
     );
   });
@@ -72,7 +80,7 @@ function App() {
 
   // Update user's guessed letters when a key is clicked
   function addGuessedLetters(letter) {
-    if (!isGameOver )
+    if (!isGameOver)
       return guessedLetters.includes(letter)
         ? guessedLetters
         : setGuessedLetters((prevGuess) => [...prevGuess, letter]);
@@ -89,14 +97,25 @@ function App() {
 
   return (
     <main>
+      {isGameWon ? (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={400}
+          gravity={0.2}
+        />
+      ) : null}
       <Header
         isGameWon={isGameWon}
         isGameLost={isGameLost}
         isGameOver={isGameOver}
+        langLost={langLost && langLost.name}
       />
       <section className="languages">{languageElementChips}</section>
       <section className="word">{wordElement}</section>
-      <section className="keyboard">{keyboardElement}</section>
+      <section className={`keyboard ${isGameOver && "game-over"}`}>
+        {keyboardElement}
+      </section>
       {isGameOver && (
         <button
           className="new-game"

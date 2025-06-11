@@ -1,7 +1,14 @@
-import { clsx } from "clsx";
+import { getFarewellText } from "../utils";
 
-export default function Header({ isGameLost, isGameWon, isGameOver }) {
-  const gameStatusColor = (isGameLost && "lost") || (isGameWon && "won");
+export default function Header({
+  isGameLost,
+  isGameWon,
+  isGameOver,
+  langLost,
+}) {
+  const gameStatusColor =
+    (isGameLost && "lost") || (isGameWon && "won") || (langLost && "playing");
+  const fareWellMessage = langLost ? getFarewellText(langLost) : null;
   return (
     <header>
       <section className="game-intro">
@@ -19,11 +26,8 @@ export default function Header({ isGameLost, isGameWon, isGameOver }) {
         )}
         <p>
           {(isGameWon && "Well done!🎉") ||
-            (isGameLost && "You lose! Better start learning Assembly 😭") || (
-              <q>
-                <em>Farewell HTML & CSS </em>
-              </q>
-            )}
+            (isGameLost && "You lose! Better start learning Assembly 😭") ||
+            (langLost && fareWellMessage)}
         </p>
       </section>
     </header>
