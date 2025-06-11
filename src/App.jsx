@@ -11,9 +11,7 @@ import { languages } from "./languages";
 
 function App() {
   // State values
-  const [word, setWord] = useState(
-    "react" /* () => generate({ maxLength: 6 }) */
-  );
+  const [word, setWord] = useState(() => generate({ maxLength: 6 }));
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   const { width, height } = useWindowSize();
@@ -103,6 +101,7 @@ function App() {
           height={height}
           numberOfPieces={400}
           gravity={0.2}
+          recycle={false}
         />
       ) : null}
       <Header
